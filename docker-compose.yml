@@ -1,0 +1,36 @@
+version: '3.9'
+
+services:
+  web:
+    build: ./backend
+    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    tty: true
+
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: django
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: search_san_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  frontend:
+    build: ./frontend
+    command: npm start
+    volumes:
+      - ./frontend:/frontend
+    ports:
+      - "3000:3000"
+    tty: true
+
+volumes:
+  db_data:
