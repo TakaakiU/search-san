@@ -4,7 +4,7 @@
 
 # 変数定義: テスト対象のドメインID
 # 最初にPOSTで作成したドメインのIDに書き換えてください
-@domain_id = 3
+@domain_id = 4
 
 ###
 ### [GET] 全てのドメイン一覧を取得
@@ -16,7 +16,7 @@ POST http://localhost:8000/api/domains/
 Content-Type: application/json
 
 {
-    "url": "example-test.com"
+    "url": "example.com"
 }
 
 ###
@@ -43,7 +43,7 @@ DELETE http://localhost:8000/api/domains/{{domain_id}}/
 
 # 変数定義: テスト対象の記事ID (UUID)
 # 最初にPOSTで作成した記事のIDに書き換えてください
-@article_id = 6e0f5400-065c-44c0-ba0b-9dbb535e605d
+@article_id = 9f6ed77c-f9f1-4920-b0a1-164fac0559ae
 
 ###
 ### [GET] 全ての記事一覧を取得
@@ -57,8 +57,8 @@ Content-Type: application/json
 
 {
     "domain": {{domain_id}},
-    "url": "https://example-test.com/my-awesome-article",
-    "title": "My Awesome Article"
+    "url": "https://example.com/article01",
+    "title": "Article01"
 }
 
 ###
@@ -77,3 +77,42 @@ Content-Type: application/json
 ###
 ### [DELETE] 特定の記事を削除
 DELETE http://localhost:8000/api/articles/{{article_id}}/
+
+### =================================
+### SERPResult APIs
+### =================================
+
+# 変数定義: テスト対象のSERPResult ID (UUID)
+@serp_result_id = 262f0d21-0ed5-4e0e-a0f4-cc638b813472
+
+###
+### [GET] 全ての検索結果一覧を取得
+GET http://localhost:8000/api/serp-results/
+
+###
+### [POST] 新しい検索結果を作成
+POST http://localhost:8000/api/serp-results/
+Content-Type: application/json
+
+{
+    "article": "{{article_id}}",
+    "search_engine": "GOOGLE",
+    "rank": 10
+}
+
+###
+### [GET] 特定の検索結果の詳細を取得
+GET http://localhost:8000/api/serp-results/{{serp_result_id}}/
+
+###
+### [PATCH] 特定の検索結果を部分更新
+PATCH http://localhost:8000/api/serp-results/{{serp_result_id}}/
+Content-Type: application/json
+
+{
+    "rank": 5
+}
+
+###
+### [DELETE] 特定の検索結果を削除
+DELETE http://localhost:8000/api/serp-results/{{serp_result_id}}/

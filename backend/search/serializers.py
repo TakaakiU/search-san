@@ -1,7 +1,7 @@
 # backend/search/serializers.py (新規作成)
 
 from rest_framework import serializers
-from .models import Domain, Article
+from .models import Domain, Article, SERPResult
 
 class DomainSerializer(serializers.ModelSerializer):
     """
@@ -18,5 +18,14 @@ class ArticleSerializer(serializers.ModelSerializer):
     """
     class Meta:
         model = Article
-        fields = ['id', 'domain', 'url', 'title', 'last_checked_at', 'created_at', 'updated_at']
+        fields = ['id', 'domain', 'url', 'title', 'status', 'last_checked_at', 'created_at', 'updated_at']
         read_only_fields = ['id', 'created_at', 'updated_at']
+
+class SERPResultSerializer(serializers.ModelSerializer):
+    """
+    SERPResultモデル用のシリアライザ
+    """
+    class Meta:
+        model = SERPResult
+        fields = ['id', 'article', 'search_engine', 'rank', 'checked_at']
+        read_only_fields = ['id']

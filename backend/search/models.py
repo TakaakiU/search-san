@@ -47,5 +47,35 @@ class Article(models.Model):
 
     class Meta:
         ordering = ['-created_at']
-        # 追加点3: 複合ユニーク制約
         unique_together = [['domain', 'url']]
+
+class SERPResult(models.Model):
+    """
+    記事ごとの検索順- 位結果を記録するモデル
+    """
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='serp_results', help_text="対象の記事")
+    
+    class SearchEngine(models.TextChoices):
+        GOOGLE = 'GOOGLE', 'Google'
+        BING = 'BING', 'Bing'
+        # 必要に応じて他の検索エンジンも追加
+    
+    search_engine = models.CharField(
+        max_length=10,
+        choices=SearchEngine.choices,
+        help_text="検索エンジン"
+    )
+    
+    rank = models.PositiveIntegerField(help_text="検索順位")
+    checked_at = models.DateTimeField(default=timezone.now, help_text="計測日時")
+
+    def __str__(self):
+        # article.titleが空の場合も考慮
+        article_identifier = self.article.title or self.article.url
+        return f"{article_identifier} - {self.search_engine}: {self.rank}位"
+
+    class Meta:
+        ordering = ['-checked_at']
+        # 1つの記事に対して、同じ日時の同じ検索エンジンの結果は1つだけ
+        unique_together = [['article', 'search_engine', 'checked_at']]

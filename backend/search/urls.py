@@ -12,4 +12,7 @@ urlpatterns = [
     # Article APIs
     path('articles/', views.ArticleListCreateView.as_view(), name='article-list-create'),
     path('articles/<uuid:pk>/', views.ArticleRetrieveUpdateDestroyView.as_view(), name='article-detail'),
+    # SERPResult APIs
+    path('serp-results/', views.SERPResultListCreateView.as_view(), name='serpresult-list-create'),
+    path('serp-results/<uuid:pk>/', views.SERPResultRetrieveUpdateDestroyView.as_view(), name='serpresult-detail'),
 ]

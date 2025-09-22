@@ -1,8 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, generics # generics をインポート
-from .models import Domain, Article # Articleを追加
-from .serializers import DomainSerializer, ArticleSerializer # ArticleSerializerを追加
+from rest_framework import status, generics
+from .models import Domain, Article, SERPResult
+from .serializers import DomainSerializer, ArticleSerializer, SERPResultSerializer
 
 # 動作確認用のAPIビュー
 class ExampleView(APIView):
@@ -43,3 +43,12 @@ class ArticleRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     """
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
+
+class SERPResultListCreateView(generics.ListCreateAPIView):
+    queryset = SERPResult.objects.all()
+    serializer_class = SERPResultSerializer
+
+class SERPResultRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = SERPResult.objects.all()
+    serializer_class = SERPResultSerializer
+    
