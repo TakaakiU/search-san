@@ -1,0 +1,79 @@
+### =================================
+### Domain APIs
+### =================================
+
+# 変数定義: テスト対象のドメインID
+# 最初にPOSTで作成したドメインのIDに書き換えてください
+@domain_id = 3
+
+###
+### [GET] 全てのドメイン一覧を取得
+GET http://localhost:8000/api/domains/
+
+###
+### [POST] 新しいドメインを作成
+POST http://localhost:8000/api/domains/
+Content-Type: application/json
+
+{
+    "url": "example-test.com"
+}
+
+###
+### [GET] 特定のドメインの詳細を取得
+GET http://localhost:8000/api/domains/{{domain_id}}/
+
+###
+### [PUT] 特定のドメインを更新
+PUT http://localhost:8000/api/domains/{{domain_id}}/
+Content-Type: application/json
+
+{
+    "url": "updated-example.com"
+}
+
+###
+### [DELETE] 特定のドメインを削除
+DELETE http://localhost:8000/api/domains/{{domain_id}}/
+
+
+### =================================
+### Article APIs
+### =================================
+
+# 変数定義: テスト対象の記事ID (UUID)
+# 最初にPOSTで作成した記事のIDに書き換えてください
+@article_id = 6e0f5400-065c-44c0-ba0b-9dbb535e605d
+
+###
+### [GET] 全ての記事一覧を取得
+GET http://localhost:8000/api/articles/
+
+###
+### [POST] 新しい記事を作成
+# 上で定義した @domain_id を使います
+POST http://localhost:8000/api/articles/
+Content-Type: application/json
+
+{
+    "domain": {{domain_id}},
+    "url": "https://example-test.com/my-awesome-article",
+    "title": "My Awesome Article"
+}
+
+###
+### [GET] 特定の記事の詳細を取得
+GET http://localhost:8000/api/articles/{{article_id}}/
+
+###
+### [PATCH] 特定の記事を部分更新
+PATCH http://localhost:8000/api/articles/{{article_id}}/
+Content-Type: application/json
+
+{
+    "title": "My Awesome Article (Updated)"
+}
+
+###
+### [DELETE] 特定の記事を削除
+DELETE http://localhost:8000/api/articles/{{article_id}}/
