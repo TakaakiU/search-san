@@ -36,6 +36,7 @@ class ArticleListCreateView(generics.ListCreateAPIView):
     """
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
+    filterset_fields = ['domain']
 
 class ArticleRetrieveUpdateDestroyView(generics.RetrieveUpdateDestroyAPIView):
     """
